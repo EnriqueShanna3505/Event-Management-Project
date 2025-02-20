@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events</title>
+      <!-- Load a font called Roboto from Google Fonts. -->
+      <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Miniver&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet"
+      />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet"
+      />
+  
+      <link rel="stylesheet" href="styles/shared/general.css" />
+      <link rel="stylesheet" href="styles/shared/event-header.css" />
+      <link rel="stylesheet" href="styles/shared/pages/eventmain.css" />
+  </head>
+  <body>
+    <!--Navigation Bar/Header-->
+    <div class="event-header">
+      <div class="event-header-left-section">
+        <a href="event-management.html" class="event-header-link">
+          <img src="images/icons/EM-WHITE-removebg-preview.png" class="event-logo" alt="">
+          <img src="images/icons/EM-WHITE-removebg-preview.png" class="event-mobile-logo" alt="">
+        </a>
+
+        <a href="eventproducts.html" class="event-header-link">
+          <span class="events-text"> Events</span>
+        </a>
+        
+      </div>
+
+      <div class="event-header-middle-section">
+        <a href="#" class="eventbot-button"></a>
+          <img
+            src="images/flyers/chatbot-preview-removebg-preview.png"
+            alt=""
+            class="chatbot-icon"
+          />
+          <img
+            src="images/flyers/chatbot-preview-removebg-preview.png"
+            alt=""
+            class="chatbot-mobile-logo"
+          />
+        </a>
+      </div>
+
+      <div class="event-header-right-section">
+        <a href="tracking.html" class="calendar-link event-header-link">
+          <span class="track-text">Track Calendar</span>
+        </a>
+      
+
+      <a href="checkout.html" class="event-cart-link header-link">
+        <img
+          src="images/icons/icone-du-calendrier-des-evenements-orange.png"
+          alt=""
+          class="calendar-icon"
+        />
+        <div class="calendar-quantity js-calendar-quantity">0</div>
+        <div class="calendar-checkout-text">Selected Events</div>
+      </a>
+    </div>
+    </div>
+
+    <div class="main">
+      <div class="event-products-grid js-event-products-grid">
+       
+
+      </div>
+    </div>
+    
+    <script src="data/eventcart.js"></script>
+    <script src="data/product.js" ></script>
+    <script src="scripts/eventproducts.js"></script>
+
+  </body>
+</html>
+ 

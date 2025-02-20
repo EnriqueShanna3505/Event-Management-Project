@@ -4,15 +4,138 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Realtime-Interactive Event Management Chatbot</title>
-    <link rel="stylesheet" href="styles/shared/general.css" />
-    <link rel="stylesheet" href="styles/shared/event-header.css" />
+
+
     <!-- Load a font called Roboto from Google Fonts. -->
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Miniver&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+
+    <link rel="stylesheet" href="styles/shared/general.css" />
+    <link rel="stylesheet" href="styles/shared/event-header.css" />
+    <link rel="stylesheet" href="styles/shared/pages/eventmain.css" />
   </head>
-  <body></body>
+  <body>
+    <!--Header/Navigation Bar-->
+    <div class="event-header">
+      <div class="event-header-left-section">
+        <a href="event-management.html" class="event-header-link">
+          <img src="images/icons/EM-WHITE-removebg-preview.png" class="event-logo" alt="">
+          <img src="images/icons/EM-WHITE-removebg-preview.png" class="event-mobile-logo" alt="">
+        </a>
+
+        <a href="eventproducts.html" class="event-header-link">
+          <span class="events-text"> Events</span>
+        </a>
+        
+      </div>
+
+      <div class="event-header-middle-section">
+        <a href="#" class="eventbot-button"></a>
+          <img
+            src="images/flyers/chatbot-preview-removebg-preview.png"
+            alt=""
+            class="chatbot-icon"
+          />
+          <img
+            src="images/flyers/chatbot-preview-removebg-preview.png"
+            alt=""
+            class="chatbot-mobile-logo"
+          />
+        </a>
+      </div>
+
+      <div class="event-header-right-section">
+        <a href="tracking.html" class="calendar-link event-header-link">
+          <span class="track-text">Track Calendar</span>
+        </a>
+      
+
+      <a href="checkout.html" class="event-cart-link header-link">
+        <img
+          src="images/icons/icone-du-calendrier-des-evenements-orange.png"
+          alt=""
+          class="calendar-icon"
+        />
+        <div class="calendar-quantity js-calendar-quantity">0</div>
+        <div class="calendar-checkout-text">Selected Events</div>
+      </a>
+    </div>
+    </div>
+
+    <main>
+            <!--Hero section-->
+            <section class="hero-section">
+              <div class="section-content">
+                <div class="hero-details">
+                  <h2 class="title">Events Management Chatbot</h2>
+                  <h3 class="subtitle">
+                    Plan, Manage, Celebrate | Your Events, Our Expertise!
+                  </h3>
+                  <p class="description">
+                    Seamlessly plan, manage, and elevate your events with our smart
+                    chatbot! From joining to promote your events, we make every
+                    occasion effortless and unforgettable. Let us turn your vision
+                    into reality | one chat at a time!
+                  </p>
+      
+                  <div class="buttons">
+                    <a href="eventproducts.html" class="button order-now">Browse Events</a>
+                    <a href="" class="button plan-event">Plan Event</a>
+                  </div>
+                </div>
+                <div class="hero-image-wrapper">
+                  <img src="images/flyers/chatbot-preview-removebg-preview.png" alt="" class="hero-image" />
+                </div>
+              </div>
+            </section>
+      <!--About Section-->
+      <section class="about-section">
+        <div class="section-content">
+          <div class="about-image-wrapper">
+            <img
+              src="images/flyers/aboutus.jpg"
+              alt="About"
+              class="about-image"
+            />
+          </div>
+          <div class="about-details">
+            <h2 class="section-title">About this Project</h2>
+            <p class="text">
+              Welcome to A Realtime Interactive Event Management Chatbot!
+              This project was developed as part of my final year university project, aimed at revolutionizing how people discover events. By leveraging advanced chatbot technology, I created a system that makes discovering events effortless by matching users with experiences that align with their interests. Whether you're passionate about music, technology, fitness, or networking, this intelligent chatbot ensures you never miss out on the best opportunities.
+              
+              The project was designed to handle the search process seamlessly, allowing users to focus on creating unforgettable memories. It represents the culmination of my academic journey, combining technical skills, creativity, and problem-solving to deliver a practical and innovative solution!
+            </p>
+            <div class="social-link-list">
+              <a href="#" class="social-link"
+                ><i class="fa-brands fa-facebook"></i
+              ></a>
+              <a href="#" class="social-link"
+                ><i class="fa-brands fa-instagram"></i
+              ></a>
+              <a href="#" class="social-link"
+                ><i class="fa-brands fa-x-twitter"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+    </main>
+  </body>
 </html>
