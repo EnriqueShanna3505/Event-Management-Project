@@ -1,6 +1,7 @@
 //Here we're using module
 import { eventCart } from '../data/eventcart.js';
 import { eventProducts } from '../data/product.js';
+import { formatCurrency } from './utils/money.js';
 
 let eventCartSummaryHTML = '';
 
@@ -33,7 +34,9 @@ eventCart.forEach((eventItem) => {
                         </div>
 
                         <div class="event-product-price">
-                            RM ${matchingEventProduct.priceCents / 100}
+                            RM ${formatCurrency(
+                              matchingEventProduct.priceCents
+                            )}
                         </div>
                         
                         <div class="event-participant-quantity">
@@ -59,7 +62,7 @@ eventCart.forEach((eventItem) => {
                         <div class="session-option">
                             <input type="radio" checked
                               class="session-option-input"
-                              name="session-option-1">
+                              name="session-option-${matchingEventProduct.id}">
                             <div>
                               <div class="session-option-date">
                                 Tuesday, June 21
@@ -73,7 +76,7 @@ eventCart.forEach((eventItem) => {
                           <div class="session-option">
                             <input type="radio" checked
                               class="session-option-input"
-                              name="session-option-1">
+                              name="session-option-${matchingEventProduct.id}">
                             <div>
                               <div class="session-option-date">
                                 Wednesday, June 22
@@ -87,7 +90,7 @@ eventCart.forEach((eventItem) => {
                           <div class="session-option">
                             <input type="radio" checked
                               class="session-option-input"
-                              name="session-option-1">
+                              name="session-option-${matchingEventProduct.id}">
                             <div>
                               <div class="session-option-date">
                                 Thursday, June 23

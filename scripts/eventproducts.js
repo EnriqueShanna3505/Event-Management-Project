@@ -7,6 +7,7 @@ make it interactive. */
 
 import { eventProducts } from '../data/product.js';
 import { eventCart, addToEventCart } from '../data/eventcart.js';
+import { formatCurrency } from './utils/money.js';
 
 let eventProductsHTML = '';
 
@@ -31,7 +32,7 @@ eventProducts.forEach((eventProduct) => {
           </div>
 
           <div class="event-product-price">
-           RM ${(eventProduct.priceCents / 100).toFixed(2)}
+           RM ${formatCurrency(eventProduct.priceCents)}
           </div>
 
           <div class="event-product-participant-quantity-container">
