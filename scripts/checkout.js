@@ -104,6 +104,3 @@ eventCart.forEach((eventItem) => {
 
 document.querySelector('.js-event-order-summary').innerHTML =
   eventCartSummaryHTML;
-
-console.log(eventCartSummaryHTML);
-console.log('Event Cart:', eventCart);
