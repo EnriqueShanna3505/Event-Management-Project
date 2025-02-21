@@ -97,7 +97,7 @@ document.querySelectorAll('.js-quantity-selector').forEach((selectElement) => {
   });
 });
 
-function updateEventCartQuantity() {
+export function updateEventCartQuantity() {
   //Make Calendar Quantity Interactive
   let calendarQuantity = 0;
 
@@ -112,7 +112,13 @@ function updateEventCartQuantity() {
 document.querySelectorAll('.js-add-to-event-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const eventProductId = button.dataset.eventProductId;
-    addToEventCart(eventProductId, button);
+    const selectElement = button
+      .closest('.event-product-container')
+      .querySelector('.js-quantity-selector');
+    const participantCount = Number(selectElement.value); // Get the selected participant count
+
+    addToEventCart(eventProductId, button, participantCount); // Pass the participant count
     updateEventCartQuantity();
   });
 });
+updateEventCartQuantity();
