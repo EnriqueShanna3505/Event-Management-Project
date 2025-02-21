@@ -99,7 +99,7 @@
   .event-product-price {
     font-weight: 700;
     margin-bottom: 10px;
-    color: #FF7300; /* Darker green */
+    color: #FFA526; /* Darker green */
   }
   
   /* Product Quantity */
@@ -114,7 +114,7 @@
   
   /* "Added to Cart" Message */
   .added-to-event-cart {
-    color: #FF7300; /* Dark green */
+    color: #FFA526; /* Dark green */
     font-size: 16px;
     display: flex;
     align-items: center;
@@ -132,8 +132,8 @@
     width: 100%;
     padding: 10px;
     border-radius: 50px;
-    background-color: #FF7300; /* Primary Green */
-    color: white;
+    background-color:#FFA526 ; /* Primary Green */
+    color: rgb(0, 0, 0);
     font-weight: bold;
     border: none;
     transition: background-color 0.3s, transform 0.2s;

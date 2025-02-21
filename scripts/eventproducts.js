@@ -5,6 +5,9 @@ a lot of time and not ideal.
 The steps are I need to save the data, generate the html, then,
 make it interactive. */
 
+import { eventProducts } from '../data/product.js';
+import { eventCart, addToEventCart } from '../data/eventcart.js';
+
 let eventProductsHTML = '';
 
 eventProducts.forEach((eventProduct) => {
@@ -66,63 +69,49 @@ eventProducts.forEach((eventProduct) => {
 //Generate html with js, take objects from products.js
 document.querySelector('.js-event-products-grid').innerHTML = eventProductsHTML;
 
-//Make Participant Selection Interactive
+function participantCounter(eventProductId, selectElement) {
+  //Make Participant Selection Interactive
+  let matchingProduct;
+
+  eventProducts.forEach((product) => {
+    if (eventProductId === product.id) {
+      matchingProduct = product;
+    }
+  });
+
+  if (matchingProduct) {
+    matchingProduct.participant = Number(selectElement.value);
+
+    let participantCounter = selectElement
+      .closest('.event-product-container')
+      .querySelector('.participant-counter');
+    participantCounter.innerHTML = `Participants: ${matchingProduct.participant}`;
+  }
+}
 
 document.querySelectorAll('.js-quantity-selector').forEach((selectElement) => {
   selectElement.addEventListener('change', function () {
     const eventProductId = this.dataset.eventProductId;
-
-    let matchingProduct;
-
-    eventProducts.forEach((product) => {
-      if (eventProductId === product.id) {
-        matchingProduct = product;
-      }
-    });
-
-    if (matchingProduct) {
-      matchingProduct.participant = Number(this.value);
-
-      let participantCounter = this.closest(
-        '.event-product-container'
-      ).querySelector('.participant-counter');
-      participantCounter.innerHTML = `Participants: ${matchingProduct.participant}`;
-    }
+    participantCounter(eventProductId, this);
   });
 });
+
+function updateEventCartQuantity() {
+  //Make Calendar Quantity Interactive
+  let calendarQuantity = 0;
+
+  eventCart.forEach((eventCartItem) => {
+    calendarQuantity += eventCartItem.quantity;
+  });
+
+  document.querySelector('.js-calendar-quantity').innerHTML = calendarQuantity;
+}
 
 //Make add to event cart button interactive
 document.querySelectorAll('.js-add-to-event-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const eventProductId = button.dataset.eventProductId;
-
-    let matchingItem;
-
-    eventCart.forEach((item) => {
-      if (eventProductId === item.eventProductId) {
-        matchingItem = item;
-      }
-    });
-
-    if (!matchingItem) {
-      eventCart.push({
-        eventProductId: eventProductId,
-        quantity: 1,
-      });
-
-      // Change button to indicate it's added
-      button.innerHTML = 'Added to Calendar';
-      button.disabled = true; // Prevent multiple clicks
-    }
-
-    //Make Calendar Quantity Interactive
-    let calendarQuantity = 0;
-
-    eventCart.forEach((item) => {
-      calendarQuantity += item.quantity;
-    });
-
-    document.querySelector('.js-calendar-quantity').innerHTML =
-      calendarQuantity;
+    addToEventCart(eventProductId, button);
+    updateEventCartQuantity();
   });
 });

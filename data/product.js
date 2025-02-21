@@ -1,4 +1,4 @@
-const eventProducts = [
+export const eventProducts = [
   {
     id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
     image: 'images/flyers/event1.jpeg',
