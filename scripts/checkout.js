@@ -1,5 +1,9 @@
 //Here we're using module
-import { eventCart } from '../data/eventcart.js';
+import {
+  eventCart,
+  removeFromEventCart,
+  updateParticipantCount,
+} from '../data/eventcart.js';
 import { eventProducts } from '../data/product.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -17,7 +21,9 @@ eventCart.forEach((eventItem) => {
   });
 
   eventCartSummaryHTML += `
-       <div class="event-cart-item-container">
+       <div class="event-cart-item-container js-event-cart-item-container-${
+         matchingEventProduct.id
+       }">
                     <div class="commence-date">
                         Commence date: Tuesday, June 21
                     </div>
@@ -46,10 +52,14 @@ eventCart.forEach((eventItem) => {
                                 }</span>
                             </span>
 
-                            <span class="update-participant-quantity-link link-primary" >
+                            <span class="update-participant-quantity-link link-primary js-update-link" data-event-product-id="${
+                              matchingEventProduct.id
+                            }" >
                                 Update
                             </span>  
-                            <span class="delete-participant-quantity-link link-primary" >
+                            <span class="delete-participant-quantity-link link-primary js-delete-link" data-event-product-id="${
+                              matchingEventProduct.id
+                            }" >
                                 Delete
                             </span>  
                         </div>
@@ -107,3 +117,23 @@ eventCart.forEach((eventItem) => {
 
 document.querySelector('.js-event-order-summary').innerHTML =
   eventCartSummaryHTML;
+
+//This is interactive delete button
+document.querySelectorAll('.js-delete-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    const eventProductId = link.dataset.eventProductId;
+    removeFromEventCart(eventProductId);
+
+    const container = document.querySelector(
+      `.js-event-cart-item-container-${eventProductId}`
+    );
+    container.remove();
+  });
+});
+
+document.querySelectorAll('.js-update-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    const eventProductId = link.dataset.eventProductId;
+    updateParticipantCount(eventProductId);
+  });
+});
