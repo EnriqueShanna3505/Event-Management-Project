@@ -5,10 +5,12 @@ if (!eventCart) {
     {
       eventProductId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       participant: 2, // No longer forcing 1
+      sessionOptionId: '1',
     },
     {
       eventProductId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
       participant: 3,
+      sessionOptionId: '2',
     },
   ];
 }
@@ -26,6 +28,7 @@ export function addToEventCart(eventProductId, button, participantCount) {
     eventCart.push({
       eventProductId: eventProductId,
       quantity: 1,
+      sessionOptionId: '1',
       participant: participantCount, // Using user-selected value
     });
 
