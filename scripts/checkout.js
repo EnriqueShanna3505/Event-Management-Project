@@ -10,38 +10,43 @@ import { formatCurrency } from './utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 const today = dayjs();
-let eventCartSummaryHTML = '';
 
-function generateSessionDates(commenceDate, hasMultipleSessions) {
-  if (hasMultipleSessions) {
-    return [
-      { date: commenceDate, label: 'Morning' },
-      { date: commenceDate, label: 'Evening' },
-      { date: commenceDate, label: 'Night' },
-    ];
-  } else {
-    return [{ date: commenceDate, label: 'Full Day' }];
+function renderOrderSummary() {
+  let eventCartSummaryHTML = '';
+
+  function generateSessionDates(commenceDate, hasMultipleSessions) {
+    if (hasMultipleSessions) {
+      return [
+        { date: commenceDate, label: 'Morning' },
+        { date: commenceDate, label: 'Evening' },
+        { date: commenceDate, label: 'Night' },
+      ];
+    } else {
+      return [{ date: commenceDate, label: 'Full Day' }];
+    }
   }
-}
 
-function sessionOptionsHTML(matchingEventProduct, eventItem) {
-  let html = '';
+  function sessionOptionsHTML(matchingEventProduct, eventItem) {
+    let html = '';
 
-  const commenceDate = dayjs(eventItem.commenceDate);
-  const hasMultipleSessions = sessionOptions.length > 1;
-  const sessionDates = generateSessionDates(commenceDate, hasMultipleSessions);
+    const commenceDate = dayjs(eventItem.commenceDate);
+    const hasMultipleSessions = sessionOptions.length > 1;
+    const sessionDates = generateSessionDates(
+      commenceDate,
+      hasMultipleSessions
+    );
 
-  sessionDates.forEach((session, index) => {
-    const dateString = session.date.format('dddd, MMMM D');
-    const sessionLabel = session.label;
-    const isExpired = session.date.isBefore(today, 'day');
-    const priceString =
-      sessionOptions[index].priceCents === 0
-        ? 'FREE Admission'
-        : `RM ${formatCurrency(sessionOptions[index].priceCents)}`;
-    const isChecked = sessionOptions[index].id === eventItem.sessionOptionId;
+    sessionDates.forEach((session, index) => {
+      const dateString = session.date.format('dddd, MMMM D');
+      const sessionLabel = session.label;
+      const isExpired = session.date.isBefore(today, 'day');
+      const priceString =
+        sessionOptions[index].priceCents === 0
+          ? 'FREE Admission'
+          : `RM ${formatCurrency(sessionOptions[index].priceCents)}`;
+      const isChecked = sessionOptions[index].id === eventItem.sessionOptionId;
 
-    html += `
+      html += `
       <div class="session-option js-session-option ${
         isExpired ? 'expired' : ''
       }"
@@ -50,16 +55,16 @@ function sessionOptionsHTML(matchingEventProduct, eventItem) {
         data-commence-date="${session.date.format('YYYY-MM-DD')}"
         data-session-label="${sessionLabel}">
         <input type="radio" ${isChecked ? 'checked' : ''} ${
-      isExpired ? 'disabled' : ''
-    }
+        isExpired ? 'disabled' : ''
+      }
           class="session-option-input"
           name="session-option-${matchingEventProduct.id}"
           value="${sessionOptions[index].id}">
         <div>
           <div class="session-option-date">
             ${dateString} ${sessionLabel ? `(${sessionLabel})` : ''} ${
-      isExpired ? '(Expired)' : ''
-    }
+        isExpired ? '(Expired)' : ''
+      }
           </div>
           <div class="session-option-price">
             ${priceString}
@@ -67,27 +72,27 @@ function sessionOptionsHTML(matchingEventProduct, eventItem) {
         </div>
       </div>
     `;
-  });
+    });
 
-  return html;
-}
+    return html;
+  }
 
-eventCart.forEach((eventItem) => {
-  const eventProductId = eventItem.eventProductId;
-  let matchingEventProduct = eventProducts.find(
-    (eventProduct) => eventProduct.id === eventProductId
-  );
+  eventCart.forEach((eventItem) => {
+    const eventProductId = eventItem.eventProductId;
+    let matchingEventProduct = eventProducts.find(
+      (eventProduct) => eventProduct.id === eventProductId
+    );
 
-  if (matchingEventProduct) {
-    const commenceDate = dayjs(eventItem.commenceDate);
-    const sessionLabel =
-      sessionOptions.find((option) => option.id === eventItem.sessionOptionId)
-        ?.label || '';
-    const formattedCommenceDate =
-      commenceDate.format('dddd, MMMM D') +
-      (sessionLabel ? ` (${sessionLabel})` : '');
+    if (matchingEventProduct) {
+      const commenceDate = dayjs(eventItem.commenceDate);
+      const sessionLabel =
+        sessionOptions.find((option) => option.id === eventItem.sessionOptionId)
+          ?.label || '';
+      const formattedCommenceDate =
+        commenceDate.format('dddd, MMMM D') +
+        (sessionLabel ? ` (${sessionLabel})` : '');
 
-    eventCartSummaryHTML += `
+      eventCartSummaryHTML += `
       <div class="event-cart-item-container js-event-cart-item-container-${
         matchingEventProduct.id
       }">
@@ -135,42 +140,45 @@ eventCart.forEach((eventItem) => {
         </div>
       </div>
     `;
-  }
-});
-
-document.querySelector('.js-event-order-summary').innerHTML =
-  eventCartSummaryHTML;
-
-document.querySelectorAll('.js-delete-link').forEach((link) => {
-  link.addEventListener('click', () => {
-    const eventProductId = link.dataset.eventProductId;
-    removeFromEventCart(eventProductId);
-
-    const container = document.querySelector(
-      `.js-event-cart-item-container-${eventProductId}`
-    );
-    if (container) container.remove();
+    }
   });
-});
 
-document.querySelectorAll('.js-update-link').forEach((link) => {
-  link.addEventListener('click', () => {
-    const eventProductId = link.dataset.eventProductId;
-    updateParticipantCount(eventProductId);
+  document.querySelector('.js-event-order-summary').innerHTML =
+    eventCartSummaryHTML;
+
+  document.querySelectorAll('.js-delete-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      const eventProductId = link.dataset.eventProductId;
+      removeFromEventCart(eventProductId);
+
+      const container = document.querySelector(
+        `.js-event-cart-item-container-${eventProductId}`
+      );
+      if (container) container.remove();
+    });
   });
-});
 
-document.querySelectorAll('.js-session-option').forEach((element) => {
-  element.addEventListener('click', () => {
-    const { eventProductId, sessionOptionId, commenceDate, sessionLabel } =
-      element.dataset;
-
-    updateSessionOption(eventProductId, sessionOptionId, commenceDate);
-
-    document.querySelector(
-      `.js-commence-date[data-event-product-id="${eventProductId}"]`
-    ).innerHTML =
-      dayjs(commenceDate).format('dddd, MMMM D') +
-      (sessionLabel ? ` (${sessionLabel})` : '');
+  document.querySelectorAll('.js-update-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      const eventProductId = link.dataset.eventProductId;
+      updateParticipantCount(eventProductId);
+    });
   });
-});
+
+  document.querySelectorAll('.js-session-option').forEach((element) => {
+    element.addEventListener('click', () => {
+      const { eventProductId, sessionOptionId, commenceDate, sessionLabel } =
+        element.dataset;
+
+      updateSessionOption(eventProductId, sessionOptionId, commenceDate);
+      renderOrderSummary();
+      document.querySelector(
+        `.js-commence-date[data-event-product-id="${eventProductId}"]`
+      ).innerHTML =
+        dayjs(commenceDate).format('dddd, MMMM D') +
+        (sessionLabel ? ` (${sessionLabel})` : '');
+    });
+  });
+}
+
+renderOrderSummary();
