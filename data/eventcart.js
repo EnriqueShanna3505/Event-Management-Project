@@ -1,5 +1,19 @@
 export let eventCart = JSON.parse(localStorage.getItem('eventCart')) || [];
 
+if (!eventCart) {
+  eventCart = [
+    {
+      eventProductId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+      quantity: 1,
+      sessionOptionId: '1',
+    },
+    {
+      eventProductId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+      quantity: 1,
+      sessionOptionId: '2',
+    },
+  ];
+}
 // Store original commence dates to ensure they persist after removal and re-addition
 export let storedCommenceDates =
   JSON.parse(localStorage.getItem('storedCommenceDates')) || {};
@@ -17,11 +31,15 @@ export function addToEventCart(
   button,
   participantCount,
   hasSessions = true,
-  eventType = 'multi-session' // New parameter: 'multi-day', 'multi-session', or 'full-day'
+  eventType = 'multi-session' // 'multi-day', 'multi-session', or 'full-day'
 ) {
-  let matchingItem = eventCart.find(
-    (eventCartItem) => eventCartItem.eventProductId === eventProductId
-  );
+  let matchingItem;
+
+  eventCart.forEach((eventCartItem) => {
+    if (eventCartItem.eventProductId === eventProductId) {
+      matchingItem = eventCartItem;
+    }
+  });
 
   if (!matchingItem) {
     let commenceDate;
@@ -49,7 +67,7 @@ export function addToEventCart(
       participant: participantCount,
       commenceDate: commenceDate,
       hasMultipleSessions: hasSessions,
-      eventType: eventType, // New property: 'multi-day', 'multi-session', or 'full-day'
+      eventType: eventType, // 'multi-day', 'multi-session', or 'full-day'
     });
 
     button.innerHTML = 'Added to Calendar';
@@ -119,9 +137,13 @@ export function updateSessionOption(
   sessionOptionId,
   newCommenceDate
 ) {
-  let matchingItem = eventCart.find(
-    (event) => event.eventProductId === eventProductId
-  );
+  let matchingItem;
+
+  eventCart.forEach((event) => {
+    if (event.eventProductId === eventProductId) {
+      matchingItem = event;
+    }
+  });
 
   if (matchingItem && matchingItem.hasMultipleSessions) {
     matchingItem.sessionOptionId = sessionOptionId;

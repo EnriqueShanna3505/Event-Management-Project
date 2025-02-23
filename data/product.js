@@ -1,3 +1,14 @@
+export function getProduct(eventProductId) {
+  let matchingEventProduct;
+
+  eventProducts.forEach((eventProduct) => {
+    if (eventProduct.id === eventProductId && !matchingEventProduct) {
+      matchingEventProduct = eventProduct;
+    }
+  });
+  return matchingEventProduct;
+}
+
 export const eventProducts = [
   {
     id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
