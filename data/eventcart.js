@@ -1,40 +1,59 @@
-export let eventCart = JSON.parse(localStorage.getItem('eventCart'));
+export let eventCart = JSON.parse(localStorage.getItem('eventCart')) || [];
 
-if (!eventCart) {
-  eventCart = [
-    {
-      eventProductId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-      participant: 2, // No longer forcing 1
-      sessionOptionId: '1',
-    },
-    {
-      eventProductId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-      participant: 3,
-      sessionOptionId: '2',
-    },
-  ];
-}
+// Store original commence dates to ensure they persist after removal and re-addition
+export let storedCommenceDates =
+  JSON.parse(localStorage.getItem('storedCommenceDates')) || {};
 
 export function saveToStorage() {
   localStorage.setItem('eventCart', JSON.stringify(eventCart));
+  localStorage.setItem(
+    'storedCommenceDates',
+    JSON.stringify(storedCommenceDates)
+  );
 }
 
-export function addToEventCart(eventProductId, button, participantCount) {
+export function addToEventCart(
+  eventProductId,
+  button,
+  participantCount,
+  hasSessions = true,
+  eventType = 'multi-session' // New parameter: 'multi-day', 'multi-session', or 'full-day'
+) {
   let matchingItem = eventCart.find(
     (eventCartItem) => eventCartItem.eventProductId === eventProductId
   );
 
   if (!matchingItem) {
+    let commenceDate;
+
+    // Check if there's a stored commence date for this event
+    if (storedCommenceDates[eventProductId]) {
+      commenceDate = storedCommenceDates[eventProductId];
+    } else {
+      // Generate a random commence date within the next 30 days
+      const today = new Date();
+      const randomDays = Math.floor(Math.random() * 30);
+      const generatedCommenceDate = new Date(today);
+      generatedCommenceDate.setDate(today.getDate() + randomDays);
+
+      commenceDate = generatedCommenceDate.toISOString().split('T')[0];
+
+      // Store the generated date so it persists even after removal
+      storedCommenceDates[eventProductId] = commenceDate;
+    }
+
     eventCart.push({
       eventProductId: eventProductId,
+      sessionOptionId: hasSessions ? '1' : null, // Null if full-day event
       quantity: 1,
-      sessionOptionId: '1',
-      participant: participantCount, // Using user-selected value
+      participant: participantCount,
+      commenceDate: commenceDate,
+      hasMultipleSessions: hasSessions,
+      eventType: eventType, // New property: 'multi-day', 'multi-session', or 'full-day'
     });
 
-    // Change button to indicate it's added
     button.innerHTML = 'Added to Calendar';
-    button.disabled = true; // Prevent multiple clicks
+    button.disabled = true;
     saveToStorage();
   }
 }
@@ -50,17 +69,12 @@ export function updateParticipantCount(eventProductId) {
   const container = document.querySelector(
     `.js-event-cart-item-container-${eventProductId}`
   );
-
   if (!container) return;
 
   let existingOptions = container.querySelector('.participant-update-options');
-
-  if (existingOptions) {
-    existingOptions.remove();
-  }
+  if (existingOptions) existingOptions.remove();
 
   let radioHTML = `<div class="participant-update-options">`;
-
   for (let i = 1; i <= 10; i++) {
     radioHTML += `
         <label>
@@ -69,7 +83,6 @@ export function updateParticipantCount(eventProductId) {
         </label>
       `;
   }
-
   radioHTML += `</div>`;
 
   container
@@ -99,4 +112,25 @@ export function updateParticipantCount(eventProductId) {
         }, 300);
       });
     });
+}
+
+export function updateSessionOption(
+  eventProductId,
+  sessionOptionId,
+  newCommenceDate
+) {
+  let matchingItem = eventCart.find(
+    (event) => event.eventProductId === eventProductId
+  );
+
+  if (matchingItem && matchingItem.hasMultipleSessions) {
+    matchingItem.sessionOptionId = sessionOptionId;
+
+    if (newCommenceDate) {
+      matchingItem.commenceDate = newCommenceDate;
+      storedCommenceDates[eventProductId] = newCommenceDate;
+    }
+
+    saveToStorage();
+  }
 }
