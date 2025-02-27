@@ -16,7 +16,7 @@ export function saveToStorage() {
 export function loadFromStorage() {
   eventCart = JSON.parse(localStorage.getItem('eventCart')) || [];
 
-  if (!eventCart) {
+  if (!eventCart.length === 0) {
     eventCart = [
       {
         eventProductId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
