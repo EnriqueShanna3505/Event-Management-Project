@@ -8,7 +8,7 @@ import { sessionOptions } from '../../data/sessionOption.js';
 import { eventProducts, getProduct } from '../../data/product.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-
+import { renderPaymentSummary } from './paymentSummary.js';
 const today = dayjs();
 
 // Function to get session option
@@ -170,13 +170,16 @@ export function renderOrderSummary() {
         `.js-event-cart-item-container-${eventProductId}`
       );
       if (container) container.remove();
+      renderPaymentSummary();
     });
   });
 
   document.querySelectorAll('.js-update-link').forEach((link) => {
     link.addEventListener('click', () => {
       const eventProductId = link.dataset.eventProductId;
+
       updateParticipantCount(eventProductId);
+      renderPaymentSummary();
     });
   });
 
@@ -187,7 +190,7 @@ export function renderOrderSummary() {
 
       updateSessionOption(eventProductId, sessionOptionId, commenceDate);
       renderOrderSummary();
-
+      renderPaymentSummary();
       const commenceDateElement = document.querySelector(
         `.js-commence-date[data-event-product-id="${eventProductId}"]`
       );
