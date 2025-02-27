@@ -1,19 +1,6 @@
-export let eventCart = JSON.parse(localStorage.getItem('eventCart')) || [];
+export let eventCart;
 
-if (!eventCart) {
-  eventCart = [
-    {
-      eventProductId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-      quantity: 1,
-      sessionOptionId: '1',
-    },
-    {
-      eventProductId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-      quantity: 1,
-      sessionOptionId: '2',
-    },
-  ];
-}
+loadFromStorage();
 // Store original commence dates to ensure they persist after removal and re-addition
 export let storedCommenceDates =
   JSON.parse(localStorage.getItem('storedCommenceDates')) || {};
@@ -24,6 +11,25 @@ export function saveToStorage() {
     'storedCommenceDates',
     JSON.stringify(storedCommenceDates)
   );
+}
+
+export function loadFromStorage() {
+  eventCart = JSON.parse(localStorage.getItem('eventCart')) || [];
+
+  if (!eventCart) {
+    eventCart = [
+      {
+        eventProductId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+        quantity: 1,
+        sessionOptionId: '1',
+      },
+      {
+        eventProductId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+        quantity: 1,
+        sessionOptionId: '2',
+      },
+    ];
+  }
 }
 
 export function addToEventCart(
@@ -41,7 +47,10 @@ export function addToEventCart(
     }
   });
 
-  if (!matchingItem) {
+  if (matchingItem) {
+    matchingItem.participant = participantCount;
+    saveToStorage();
+  } else {
     let commenceDate;
 
     // Check if there's a stored commence date for this event
