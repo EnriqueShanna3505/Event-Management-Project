@@ -43,7 +43,6 @@ export function loadProducts(fun) {
       return new EventProduct(productDetails);
     });
 
-    console.log('load products');
     fun();
   });
 
