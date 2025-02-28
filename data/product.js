@@ -46,10 +46,14 @@ export function loadProductsFetch() {
       });
 
       console.log('load products');
+    })
+    .catch(() => {
+      console.log('Unexpected error.');
     });
 
   return promise;
 }
+
 /*
 loadProductsFetch().then(() => {
   console.log('next step');
@@ -62,15 +66,18 @@ export function loadProducts(fun) {
     eventProducts = JSON.parse(xhr.response).map((productDetails) => {
       return new EventProduct(productDetails);
     });
-
+    console.log('load products');
     fun();
   });
+
+  xhr.addEventListener('error', () => {
+    console.log('Unexpected error.');
+  }); //Error Handling
 
   xhr.open('GET', 'http://localhost:3001/events');
   xhr.send();
 }
 
-loadProducts();
 /*
 export const eventProducts = [
   {
