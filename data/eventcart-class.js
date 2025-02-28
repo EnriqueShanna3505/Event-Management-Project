@@ -1,15 +1,15 @@
 class EventCart {
   eventCartItems;
-  localStorageKey;
+  #localStorageKey;
 
   constructor(localStorageKey) {
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
-  loadFromStorage() {
+  #loadFromStorage() {
     this.eventCartItems =
-      JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+      JSON.parse(localStorage.getItem(this.#localStorageKey)) || [];
 
     if (!this.eventCartItems || this.eventCartItems.length === 0) {
       this.eventCartItems = [
@@ -29,7 +29,7 @@ class EventCart {
 
   saveToStorage() {
     localStorage.setItem(
-      this.localStorageKey,
+      this.#localStorageKey,
       JSON.stringify(this.eventCartItems)
     );
     localStorage.setItem(
