@@ -1,3 +1,5 @@
+import { formatCurrency } from '../scripts/utils/money.js';
+
 export function getProduct(eventProductId) {
   let matchingEventProduct;
 
@@ -8,6 +10,38 @@ export function getProduct(eventProductId) {
   });
   return matchingEventProduct;
 }
+
+class EventProduct {
+  id;
+  image;
+  name;
+  participant;
+  priceCents;
+
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.participant = productDetails.participant;
+    this.priceCents = productDetails.priceCents;
+    this.keywords = productDetails.keywords;
+    this.type = productDetails.type;
+  }
+
+  getPrice() {
+    return `RM ${formatCurrency(this.priceCents)}`;
+  }
+}
+
+const product1 = new EventProduct({
+  id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+  image: 'images/flyers/event1.jpeg',
+  name: 'Basketball Club',
+  participant: 87,
+  priceCents: 1090,
+  keywords: ['basketballs'],
+  type: 'sports,',
+});
 
 export const eventProducts = [
   {
@@ -190,4 +224,6 @@ export const eventProducts = [
     keywords: ['food'],
     type: 'education',
   },
-];
+].map((productDetails) => {
+  return new EventProduct(productDetails);
+});

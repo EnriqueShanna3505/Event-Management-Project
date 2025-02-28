@@ -126,7 +126,7 @@ export function renderOrderSummary() {
                       matchingEventProduct.name
                     }</div>
                     <div class="event-product-price">
-                      RM ${formatCurrency(matchingEventProduct.priceCents)}
+                     ${matchingEventProduct.getPrice()}
                     </div>
                     <div class="event-participant-quantity">
                       <span>

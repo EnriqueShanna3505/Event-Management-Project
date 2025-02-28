@@ -32,7 +32,7 @@ eventProducts.forEach((eventProduct) => {
           </div>
 
           <div class="event-product-price">
-           RM ${formatCurrency(eventProduct.priceCents)}
+           ${eventProduct.getPrice()}
           </div>
 
           <div class="event-product-participant-quantity-container">
