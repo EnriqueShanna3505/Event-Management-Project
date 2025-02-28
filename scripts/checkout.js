@@ -4,11 +4,28 @@ import { loadProducts, loadProductsFetch } from '../data/product.js';
 import '../data/eventcart-class.js';
 import { loadCart } from '../data/eventcart.js';
 
+async function loadPage() {
+  //async returns a promise
+
+  await loadProductsFetch();
+
+  const value = await new Promise((resolve) => {
+    loadProducts(() => {
+      resolve('value3');
+    });
+  });
+  renderOrderSummary();
+  renderPaymentSummary();
+}
+
+loadPage();
+
+/*
 Promise.all([
   loadProductsFetch(),
   new Promise((resolve) => {
     loadProducts(() => {
-      resolve('value1');
+      resolve();
     });
   }),
   new Promise((resolve) => {
@@ -21,6 +38,7 @@ Promise.all([
   renderOrderSummary();
   renderPaymentSummary();
 });
+*/
 
 /*
 new Promise((resolve) => {
