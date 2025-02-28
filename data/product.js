@@ -35,6 +35,26 @@ class EventProduct {
 
 export let eventProducts = [];
 
+export function loadProductsFetch() {
+  const promise = fetch('http://localhost:3001/events')
+    .then((response) => {
+      return response.json();
+    })
+    .then((eventsData) => {
+      eventProducts = eventsData.map((productDetails) => {
+        return new EventProduct(productDetails);
+      });
+
+      console.log('load products');
+    });
+
+  return promise;
+}
+/*
+loadProductsFetch().then(() => {
+  console.log('next step');
+});
+*/
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 

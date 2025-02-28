@@ -1,10 +1,11 @@
 import { renderOrderSummary } from './checkout/orderSummary.js';
 import { renderPaymentSummary } from './checkout/paymentSummary.js';
-import { loadProducts } from '../data/product.js';
+import { loadProducts, loadProductsFetch } from '../data/product.js';
 import '../data/eventcart-class.js';
 import { loadCart } from '../data/eventcart.js';
 
 Promise.all([
+  loadProductsFetch(),
   new Promise((resolve) => {
     loadProducts(() => {
       resolve('value1');
