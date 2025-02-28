@@ -33,16 +33,26 @@ class EventProduct {
   }
 }
 
-const product1 = new EventProduct({
-  id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-  image: 'images/flyers/event1.jpeg',
-  name: 'Basketball Club',
-  participant: 87,
-  priceCents: 1090,
-  keywords: ['basketballs'],
-  type: 'sports,',
-});
+export let eventProducts = [];
 
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    eventProducts = JSON.parse(xhr.response).map((productDetails) => {
+      return new EventProduct(productDetails);
+    });
+
+    console.log('load products');
+    fun();
+  });
+
+  xhr.open('GET', 'http://localhost:3001/events');
+  xhr.send();
+}
+
+loadProducts();
+/*
 export const eventProducts = [
   {
     id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -227,3 +237,4 @@ export const eventProducts = [
 ].map((productDetails) => {
   return new EventProduct(productDetails);
 });
+*/

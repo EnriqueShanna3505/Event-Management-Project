@@ -5,14 +5,17 @@ a lot of time and not ideal.
 The steps are I need to save the data, generate the html, then,
 make it interactive. */
 
-import { eventProducts } from '../data/product.js';
+import { eventProducts, loadProducts } from '../data/product.js';
 import { eventCart, addToEventCart } from '../data/eventcart.js';
 import { formatCurrency } from './utils/money.js';
 
-let eventProductsHTML = '';
+loadProducts(renderProductsGrid);
 
-eventProducts.forEach((eventProduct) => {
-  eventProductsHTML += `<div class="event-product-container">
+function renderProductsGrid() {
+  let eventProductsHTML = '';
+
+  eventProducts.forEach((eventProduct) => {
+    eventProductsHTML += `<div class="event-product-container">
           <div class="event-product-image-container">
             <img src="${eventProduct.image}" alt="" class="event-product-image">
           </div>
@@ -66,59 +69,64 @@ eventProducts.forEach((eventProduct) => {
 
         </div>
     `;
-});
-//Generate html with js, take objects from products.js
-document.querySelector('.js-event-products-grid').innerHTML = eventProductsHTML;
+  });
+  //Generate html with js, take objects from products.js
+  document.querySelector('.js-event-products-grid').innerHTML =
+    eventProductsHTML;
 
-function participantCounter(eventProductId, selectElement) {
-  //Make Participant Selection Interactive
-  let matchingProduct;
+  function participantCounter(eventProductId, selectElement) {
+    //Make Participant Selection Interactive
+    let matchingProduct;
 
-  eventProducts.forEach((product) => {
-    if (eventProductId === product.id) {
-      matchingProduct = product;
+    eventProducts.forEach((product) => {
+      if (eventProductId === product.id) {
+        matchingProduct = product;
+      }
+    });
+
+    if (matchingProduct) {
+      matchingProduct.participant = Number(selectElement.value);
+
+      let participantCounter = selectElement
+        .closest('.event-product-container')
+        .querySelector('.participant-counter');
+      participantCounter.innerHTML = `Participants: ${matchingProduct.participant}`;
     }
-  });
-
-  if (matchingProduct) {
-    matchingProduct.participant = Number(selectElement.value);
-
-    let participantCounter = selectElement
-      .closest('.event-product-container')
-      .querySelector('.participant-counter');
-    participantCounter.innerHTML = `Participants: ${matchingProduct.participant}`;
   }
+
+  document
+    .querySelectorAll('.js-quantity-selector')
+    .forEach((selectElement) => {
+      selectElement.addEventListener('change', function () {
+        const eventProductId = this.dataset.eventProductId;
+        participantCounter(eventProductId, this);
+      });
+    });
+
+  function updateEventCartQuantity() {
+    //Make Calendar Quantity Interactive
+    let calendarQuantity = 0;
+
+    eventCart.forEach((eventCartItem) => {
+      calendarQuantity += eventCartItem.quantity;
+    });
+
+    document.querySelector('.js-calendar-quantity').innerHTML =
+      calendarQuantity;
+  }
+
+  //Make add to event cart button interactive
+  document.querySelectorAll('.js-add-to-event-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      const eventProductId = button.dataset.eventProductId;
+      const selectElement = button
+        .closest('.event-product-container')
+        .querySelector('.js-quantity-selector');
+      const participantCount = Number(selectElement.value); // Get the selected participant count
+
+      addToEventCart(eventProductId, button, participantCount); // Pass the participant count
+      updateEventCartQuantity();
+    });
+  });
+  updateEventCartQuantity();
 }
-
-document.querySelectorAll('.js-quantity-selector').forEach((selectElement) => {
-  selectElement.addEventListener('change', function () {
-    const eventProductId = this.dataset.eventProductId;
-    participantCounter(eventProductId, this);
-  });
-});
-
-export function updateEventCartQuantity() {
-  //Make Calendar Quantity Interactive
-  let calendarQuantity = 0;
-
-  eventCart.forEach((eventCartItem) => {
-    calendarQuantity += eventCartItem.quantity;
-  });
-
-  document.querySelector('.js-calendar-quantity').innerHTML = calendarQuantity;
-}
-
-//Make add to event cart button interactive
-document.querySelectorAll('.js-add-to-event-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    const eventProductId = button.dataset.eventProductId;
-    const selectElement = button
-      .closest('.event-product-container')
-      .querySelector('.js-quantity-selector');
-    const participantCount = Number(selectElement.value); // Get the selected participant count
-
-    addToEventCart(eventProductId, button, participantCount); // Pass the participant count
-    updateEventCartQuantity();
-  });
-});
-updateEventCartQuantity();
