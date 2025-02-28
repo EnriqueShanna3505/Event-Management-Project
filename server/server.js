@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors'; // Import cors
+
 const app = express();
 const PORT = 3001;
 
@@ -189,6 +190,9 @@ export const eventProducts = [
 app.use(cors()); // Enable CORS for all origins
 app.use(express.json());
 
+let orders = [];
+
+// Route to get all events
 app.get('/events', (req, res) => {
   res.json(eventProducts);
 });
@@ -203,8 +207,30 @@ app.get('/events/:id', (req, res) => {
   }
 });
 
-// Start the server
+// Route to place an order
+app.post('/orders', (req, res) => {
+  const { eventCart } = req.body;
 
+  if (!eventCart || !Array.isArray(eventCart)) {
+    return res.status(400).json({ message: 'Invalid cart data' });
+  }
+
+  const newOrder = {
+    id: orders.length + 1,
+    cart: eventCart,
+    date: new Date().toISOString(),
+  };
+
+  orders.push(newOrder);
+  res.status(201).json(newOrder);
+});
+
+// Route to get all orders
+app.get('/orders', (req, res) => {
+  res.json(orders);
+});
+
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
