@@ -75,10 +75,13 @@
           const formData = new FormData(event.target);
 
           try {
-            const response = await fetch('http://localhost:3001/events', {
-              method: 'POST',
-              body: formData, // Send FormData directly (no headers needed)
-            });
+            const response = await fetch(
+              'https://event-management-project-pg6t.onrender.com',
+              {
+                method: 'POST',
+                body: formData, // Send FormData directly (no headers needed)
+              }
+            );
 
             if (response.ok) {
               const newEvent = await response.json();
@@ -96,5 +99,7 @@
           }
         });
     </script>
+    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/03/18/14/20250318144643-0OC90HI5.js"></script>
   </body>
 </html>

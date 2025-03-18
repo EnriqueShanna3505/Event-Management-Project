@@ -36,7 +36,9 @@ class EventProduct {
 export let eventProducts = [];
 
 export function loadProductsFetch() {
-  const promise = fetch('http://localhost:3001/events')
+  const promise = fetch(
+    'https://event-management-project-pg6t.onrender.com/events'
+  )
     .then((response) => {
       return response.json();
     })
@@ -74,7 +76,7 @@ export function loadProducts(fun) {
     console.log('Unexpected error.');
   }); //Error Handling
 
-  xhr.open('GET', 'http://localhost:3001/events');
+  xhr.open('GET', 'https://event-management-project-pg6t.onrender.com/events');
   xhr.send();
 }
 
