@@ -1,0 +1,129 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #faf4f5; /* Light background */
+    color: #333; /* Dark text */
+  }
+  
+  /* Header */
+  header {
+    background: #FFA526; /* Primary orange */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  h1, h2 {
+    margin: 0;
+    color: #000000; /* Black text */
+    font-weight: bold;
+  }
+  
+  /* Main Content */
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Section Container */
+  .section-content {
+    background: white;
+    border: 1px solid #74C69D; /* Light green border */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  /* Form */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #000000; /* Black text */
+  }
+  
+  input, textarea, select {
+    padding: 10px;
+    border: 1px solid #74C69D; /* Light green border */
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #faf4f5; /* Light background */
+    color: #333; /* Dark text */
+  }
+  
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #FFA526; /* Orange focus */
+    box-shadow: 0 0 5px rgba(255, 165, 38, 0.5); /* Orange glow */
+  }
+  
+  /* Button */
+  button {
+    background: #FFA526; /* Primary orange */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50px; /* Rounded corners */
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  
+  button:hover {
+    background: #e6951f; /* Darker orange */
+    transform: scale(1.05); /* Slight zoom */
+  }
+  
+  /* Events Container */
+  #events-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Event Card Styles */
+  .event-card {
+    background: white;
+    border: 1px solid #74C69D; /* Light green border */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .event-card h3 {
+    margin: 0 0 10px 0;
+    color: #000000; /* Black text */
+    font-weight: bold;
+  }
+  
+  .event-card p {
+    margin: 5px 0;
+    color: #333; /* Dark text */
+  }
+  
+  .event-card img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .section-content {
+      width: 90%;
+    }
+  }
